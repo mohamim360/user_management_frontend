@@ -2,9 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '../utils/formatData';
-import { FaUnlock, FaTrash, FaBan, FaUserShield, FaSignOutAlt } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+// Material Icons
+import ShieldIcon from '@mui/icons-material/Shield';
+import BlockIcon from '@mui/icons-material/Block';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import DeleteIcon from '@mui/icons-material/Delete';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Dashboard: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -25,7 +31,6 @@ const Dashboard: React.FC = () => {
     fetchUsers();
   }, [navigate]);
 
-  
   useEffect(() => {
     if (users.length > 0 && users.every(user => user.status === 'blocked')) {
       toast.warning('All users are blocked. Redirecting to login...');
@@ -82,10 +87,9 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  // Logout handler
   const handleLogout = () => {
-    localStorage.removeItem('token'); // Clear authentication token
-    navigate('/'); // Redirect to the login page
+    localStorage.removeItem('token');
+    navigate('/');
   };
 
   return (
@@ -93,26 +97,25 @@ const Dashboard: React.FC = () => {
       <ToastContainer />
       <div className="card shadow-lg">
         <div className="card-header bg-primary text-white text-center">
-          <h3 className="mb-0"><FaUserShield /> User Management</h3>
+          <h3 className="mb-0"><ShieldIcon /> User Management</h3>
         </div>
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <div className="btn-group">
               <button className="btn btn-danger" onClick={handleBlock} title="Block selected users">
-                <FaBan /> Block
+                <BlockIcon /> Block
               </button>
               <button className="btn btn-success" onClick={handleUnblock} title="Unblock selected users">
-                <FaUnlock /> Unblock
+                <LockOpenIcon /> Unblock
               </button>
               <button className="btn btn-warning" onClick={handleDelete} title="Delete selected users">
-                <FaTrash /> Delete
+                <DeleteIcon /> Delete
               </button>
             </div>
             <span className="badge bg-secondary">{selected.length} Selected</span>
 
-            {/* Logout Button */}
             <button className="btn btn-secondary" onClick={handleLogout} title="Logout">
-              <FaSignOutAlt /> Logout
+              <LogoutIcon /> Logout
             </button>
           </div>
 
