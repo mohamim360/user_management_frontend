@@ -16,7 +16,7 @@ const Dashboard: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
   const navigate = useNavigate();
-
+// Fetch users from the backend
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -31,6 +31,7 @@ const Dashboard: React.FC = () => {
     fetchUsers();
   }, [navigate]);
 
+  // Redirect to login if all users are blocked
   useEffect(() => {
     if (users.length > 0 && users.every(user => user.status === 'blocked')) {
       toast.warning('All users are blocked. Redirecting to login...');
@@ -41,16 +42,19 @@ const Dashboard: React.FC = () => {
     }
   }, [users, navigate]);
 
+  // Handle select all checkbox
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelected(e.target.checked ? users.map(user => user._id) : []);
   };
 
+  // Handle individual selection
   const handleSelection = (id: string) => {
     setSelected(prev =>
       prev.includes(id) ? prev.filter(uid => uid !== id) : [...prev, id]
     );
   };
 
+  // Handle block users
   const handleBlock = async () => {
     try {
       await axios.post('https://usermanagementbackend-lake.vercel.app/api/users/block', { userIds: selected }, {
@@ -63,6 +67,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  // Handle unblock users
   const handleUnblock = async () => {
     try {
       await axios.post('https://usermanagementbackend-lake.vercel.app/api/users/unblock', { userIds: selected }, {
@@ -75,6 +80,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  // Handle delete users
   const handleDelete = async () => {
     try {
       await axios.post('https://usermanagementbackend-lake.vercel.app/api/users/delete', { userIds: selected }, {
@@ -86,7 +92,7 @@ const Dashboard: React.FC = () => {
       toast.error('Error deleting users');
     }
   };
-
+// Handle logout and remove token from local storage
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/');

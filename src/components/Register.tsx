@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+// Register component definition with name, email, password, error, and success states 
 const Register: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -9,7 +9,7 @@ const Register: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
-
+// The handleRegister function sends a POST request to the backend to register a new user 
   const handleRegister = async () => {
     try {
       await axios.post('https://usermanagementbackend-lake.vercel.app/api/auth/register', { name, email, password });

@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+// Login component definition with email, password, error, and navigate states
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-
+    // The handleLogin function sends a POST request to the backend to authenticate the user
     const handleLogin = async () => {
         try {
             const response = await axios.post('https://usermanagementbackend-lake.vercel.app/api/auth/login', { email, password });
